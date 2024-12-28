@@ -24,3 +24,15 @@ func CreateBlock(old *Block, data string) *Block {
 	block.Hash = utils.CalculateHash(block)
 	return &block
 }
+
+func Genesis() *Block {
+	block := &Block{
+		Index:     0,
+		Timestamp: time.Now().String(),
+		Hash:      nil,
+		Data:      []byte("Genesis Block"),
+		Prev_hash: nil,
+	}
+	block.Hash = utils.CalculateHash(block)
+	return block
+}
