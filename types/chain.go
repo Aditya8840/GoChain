@@ -2,8 +2,6 @@ package types
 
 import (
 	"bytes"
-
-	"github.com/Aditya8840/GoChain/utils"
 )
 
 type Chain struct {
@@ -33,7 +31,7 @@ func (c *Chain) IsValid() bool {
 			return false
 		}
 
-		if !bytes.Equal(currentBlock.Hash, utils.CalculateHash(currentBlock)) {
+		if !bytes.Equal(currentBlock.Hash, CalculateHash(*currentBlock)) {
             return false
         }
 	}

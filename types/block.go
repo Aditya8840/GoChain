@@ -2,8 +2,8 @@ package types
 
 import (
 	"time"
-
-	"github.com/Aditya8840/GoChain/utils"
+	"crypto/sha256"
+	"strconv"
 )
 
 type Block struct {
@@ -14,6 +14,12 @@ type Block struct {
 	Prev_hash []byte
 }
 
+func CalculateHash(block Block) []byte {
+	record := strconv.Itoa(block.Index)+block.Timestamp+string(block.Data[:])+string(block.Prev_hash[:])
+	hash := sha256.Sum256([]byte(record))
+	return hash[:]
+}
+
 func CreateBlock(old *Block, data string) *Block {
 	var block Block
 	currentTime := time.Now()
@@ -21,7 +27,7 @@ func CreateBlock(old *Block, data string) *Block {
 	block.Timestamp = currentTime.String()
 	block.Data = []byte(data)
 	block.Prev_hash = old.Hash
-	block.Hash = utils.CalculateHash(block)
+	block.Hash = CalculateHash(block)
 	return &block
 }
 
@@ -33,6 +39,6 @@ func Genesis() *Block {
 		Data:      []byte("Genesis Block"),
 		Prev_hash: nil,
 	}
-	block.Hash = utils.CalculateHash(block)
+	block.Hash = CalculateHash(*block)
 	return block
 }
